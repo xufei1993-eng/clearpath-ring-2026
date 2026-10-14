@@ -24,12 +24,12 @@
     "docs/THIRD_PARTY_NOTICES.md": "1e70745932283334242111b155244f16c43b72159d78989f362eff4a9baf9f07",
     "docs/architecture.en.md": "d5d3a3f64c6b23074efcb7470d4af50d2703b83cf82e25af4fb6873e7a830b32",
     "docs/contest-readiness.md": "9b310e937c44b610b3672da2fd5c52e92183796d222011df87eb6a9af1805c23",
-    "docs/product-feedback.md": "b7d2b0babe2dcc8994d26a201637d16314b6da4210a91cb4ebc94fdae66ea4b4",
+    "docs/product-feedback.md": "c5ecdce368db10cee69329923f723ff1bc9eed0998d80288992f78ca4f3e1d7c",
     "docs/ring-integration.png": "673ca4656d8e0611837102a407a33599e981e62ff52dd594acd4f24b63a329ed",
     "docs/ring-setup.en.md": "102c8d0477e98395e2c785bbb767c9b9a00369d725cb8ceaa0110443932ff90b",
     "docs/ring-validation_2026-10-14.en.md": "20cb59a51e35ddbad38136f16fa2e1dd83771e23984fe1c2bab1cd089e2ac743",
-    "docs/submission-final.md": "900ea10303f7581f4aebe22ab2f5779641f47f1735cd512c3df7369e42b993e7",
-    "docs/testing.en.md": "d76b8f2a2cdebf18903fc26b88a119fb2f01c6ee3826857ea525771c067da7c0",
+    "docs/submission-final.md": "78bfa84814f8dc573b45ccf7a28699738d69b7a5bfc33f170179e7b994be7540",
+    "docs/testing.en.md": "249217562daabc63d961298bc2ddadb4021f6538bd4323631db2b5c19e41e2af",
     "registration.py": "6b86fab4bc668fbd9710916c1c7be15a9804a9cf4ced02d4f6f8eb847c980826",
     "requirements-vision.txt": "2759ff6b719ff8f1b7bc55f270270ca093b9f8e318790d7a923db85f70376890",
     "server.py": "399647a0c5fba552b00d1700a72125c39c1802c6b8c079eac9870c83141493ab",
@@ -43,7 +43,7 @@
     "tests/test_server.py": "3aa5815cca6d1fe3b7b8410a976665a4f681fb358f23c4885a746d84c5631af4",
     "tests/test_server_vision.py": "d9547a2d95188ef328635bbcbf63a88af26f56f96fbce36eb3c57aec50eb7d91",
     "tests/vision.test.mjs": "a10817fa048aa44662a93d01c8dde838465472bcadc904f4454bdca5c3cb2713",
-    "tools/build_submission_video.py": "6a3472ede7c6e7eb2315ea5daa7c701eb6a6e7554d06ec2c2a426eb9eb54fbc7",
+    "tools/build_submission_video.py": "56b292f9f7a135aeffb797f5a7ddb5f626f163d459d8a18814d973c7b5ef1a10",
     "tools/package_submission.py": "e04acbd5a771c7bfd9d2efabec71f06da497c039e6be1ad2b8674ea16fa3e704"
   }
 }

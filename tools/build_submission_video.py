@@ -27,40 +27,40 @@ W, H, TOP, BAND, FPS, RATE = 1280, 720, 642, 78, 24, 48000
 BG, INK, GREEN, MUTED = '#F0F3ED', '#172A24', '#24594C', '#5B6C62'
 SECTIONS = [
     dict(id='problem', title='Room for the next step', seconds=16, kind='card', cues=[
-        'Doorway space matters when you use a wheelchair, walker, or stroller.',
-        'A delivery alert says something arrived.',
-        'ClearPath helps you review changes in an area you choose. People make the final decision.',
+        'Doorway space matters for wheelchairs, walkers, and strollers.',
+        'Deliveries change that space.',
+        'The app shows changes. You decide.',
     ]),
     dict(id='ring', title='Official Ring input', seconds=29, kind='ring', cueStarts=[0.5, 5.2, 19.0, 23.0], cues=[
-        'This is the official Ring Developer Playground connected to ClearPath.',
-        "The app discovers the simulated device through Ring's API and receives a real WebRTC video stream.",
-        'A decoded frame enters local comparison on this computer.',
-        'This proves the input connection. It does not prove doorway detection accuracy.',
+        'Connected to Ring Developer Playground.',
+        'This simulated device uses the Ring API and real WebRTC video.',
+        'Frames are compared locally.',
+        'Connection works. Detection accuracy needs testing.',
     ]),
-    dict(id='workflow', title='Self-recorded development workflow', seconds=57, kind='workflow', cueStarts=[0.5, 5.0, 12.0, 19.0, 36.7, 49.2, 28.0], cues=[
-        'Now the source is a phone recording made for development.',
-        'We save an empty reference at two seconds and mark a smaller region with framing margin.',
-        'This new calibration covers less ground than the original region, which still fails visibility checks.',
-        'At twelve seconds, a box occupies the chosen area. ClearPath highlights the change for review.',
-        'I confirm the observation, then use the later frame at twenty seconds, after the box is removed.',
-        'The new comparison reports no significant new change, and the follow-up is recorded.',
-        'An older or repeated frame cannot close this follow-up.',
+    dict(id='workflow', title='Self-recorded development workflow', seconds=57, kind='workflow', cueStarts=[0.5, 5.0, 12.0, 19.0, 28.0, 36.7, 49.2], cues=[
+        'This is our phone recording.',
+        'At two seconds, save an empty reference and smaller region.',
+        'This smaller region covers less ground. The original still fails.',
+        'At twelve seconds, the box triggers a change for review.',
+        'Older or repeated frames cannot close this follow-up.',
+        'I confirm, then use twenty seconds, after removing the box.',
+        'The new comparison clears the follow-up with fresh evidence.',
     ]),
     dict(id='failure', title='Keep the failures visible', seconds=16, kind='card', cues=[
-        'The first recording produced a broad false detection.',
-        "The second recording's original region still fails.",
-        'One reused development scene worked with a smaller region. Ten independent unseen scenes are still pending.',
+        'First recording: broad false detection.',
+        'Second recording: original region rejected.',
+        'One reused scene worked with a smaller region. Ten unseen scenes remain.',
     ]),
     dict(id='architecture', title='Local processing, explicit evidence', seconds=23, kind='card', cues=[
-        'Basic comparison stays in the browser.',
-        'Optional OpenCV registration receives reduced frames only on the same computer.',
-        'The hosted preview never sends images to a processing API.',
-        'No paid model or cloud backend was required. Engineering tests remain separate from real-world evidence.',
+        'Basic comparison runs in your browser.',
+        'Optional OpenCV alignment stays on this computer.',
+        'Hosted pages never send images for processing.',
+        'Zero paid services. Tests are not real-world evidence.',
     ]),
     dict(id='closing', title='ClearPath', seconds=15, kind='card', cues=[
-        'Make a possible problem reviewable. Require fresh evidence before closing the follow-up.',
+        'Flag the change. Require fresh evidence to close it.',
         'ClearPath does not certify safe passage or measure usable width.',
-        'Ready for broader testing.',
+        'More testing comes next.',
     ]),
 ]
 
@@ -244,9 +244,9 @@ def prepare(assets, voice_dir=None):
         audio_parts.sort(key=lambda part: part[0])
         if any(cues[i]['end'] > cues[i+1]['start'] for i in range(len(cues)-1)):
             raise ValueError('Narration cues overlap; adjust chapter cue starts.')
-        seconds = max(float(section['seconds']), math.ceil((cursor + 0.9) * FPS) / FPS)
-        if section['id'] == 'closing':
-            seconds = max(seconds, 15.0)
+        seconds = float(section['seconds'])
+        if cues[-1]['end'] > seconds - 0.45:
+            raise ValueError('Narration exceeds the fixed chapter window; shorten the supplied wording or audio.')
         section.update(seconds=seconds, cues=cues, audio=str(directory / 'narration.wav'))
         with wave.open(section['audio'], 'wb') as out:
             out.setparams((1, 2, RATE, 0, 'NONE', 'not compressed'))
@@ -275,7 +275,7 @@ def prepare(assets, voice_dir=None):
             f"file '{concat_quote(png)}'\nduration {span:.6f}\n" for png, span in timeline
         ) + f"file '{concat_quote(blank)}'\n", encoding='utf-8')
         section['captions'] = str(directory / 'subtitles.mp4')
-        run(['ffmpeg', '-v', 'error', '-y', '-safe', '0', '-i', concat, '-t', f'{seconds:.6f}', '-r', FPS,
+        run(['ffmpeg', '-v', 'error', '-y', '-safe', '0', '-i', concat, '-t', f'{seconds:.6f}', '-vf', f'fps={FPS}:start_time=0,tpad=stop_mode=clone:stop_duration=2',
              '-an', '-map_metadata', '-1', '-map_chapters', '-1', '-c:v', 'libx264', '-preset', 'fast', '-crf', '17', '-pix_fmt', 'yuv420p', section['captions']])
         manifest.append(section)
     total = sum(x['seconds'] for x in manifest)
@@ -346,7 +346,10 @@ def build(args, assets):
     concat.write_text('ffconcat version 1.0\n' + ''.join(f"file '{concat_quote(path)}'\n" for path in chunks), encoding='utf-8')
     final = output / 'ClearPath_submission_demo_EN.mp4'
     run(['ffmpeg', '-v', 'error', '-y', '-safe', '0', '-i', concat, '-map', '0:v:0', '-map', '0:a:0',
-         '-map_metadata', '-1', '-map_chapters', '-1', '-c', 'copy', '-movflags', '+faststart', final])
+         '-map_metadata', '-1', '-map_chapters', '-1',
+         '-vf', f'fps={FPS}:start_time=0,tpad=stop_mode=clone:stop_duration=2',
+         '-t', str(production['duration']), '-c:v', 'libx264', '-preset', 'medium',
+         '-crf', '18', '-pix_fmt', 'yuv420p', '-c:a', 'copy', '-movflags', '+faststart', final])
     srt = final.with_suffix('.srt')
     srt.write_text('\n'.join(subtitles), encoding='utf-8')
     details = probe(final)

@@ -68,6 +68,12 @@ Prepared 14 October 2026 for the Ring track. These observations come from this p
 
 **Would we use this stack again?** Yes. It suits a local prototype with explicit user control. A production version still needs broader network, browser, device and intended-user testing.
 
+## Demonstration production: local reference-voice synthesis
+
+This is a film-production toolchain, separate from ClearPath's runtime visual comparison. The creator explicitly supplied and authorized their own short reference recording. We used Qwen3-TTS Base through MLX-Audio and local Whisper transcription; no reference audio or narration text was sent to a hosted synthesis/transcription service.
+
+The reference-voice path generated the requested English text locally. The initial full script took longer to speak than the existing caption windows, so we shortened narration, rebuilt captions and used only small timing adjustments. This was a production-editing issue, not a claimed defect in Ring. Similarity and naturalness remain subjective; the creator received a playable preview rather than an unsupported claim of a perfect voice match. Original references, transcripts, voice representations and models are excluded from the source release. We would use the local approach again when the speaker has authorized the reference and the output can be reviewed before publication.
+
 ## Feature requests and scope
 
 | Priority | Request | Why it matters |

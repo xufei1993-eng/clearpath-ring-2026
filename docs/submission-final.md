@@ -52,7 +52,7 @@ We also had to protect frame freshness and preserve visual evidence through imag
 
 ## What we can demonstrate
 
-ClearPath has a documented real Ring Playground input chain and one successful self-recorded development sequence: a 2-second empty reference, a 12-second occupied view, an actual human confirmation and a 20-second cleared recheck. The latter uses the explicitly smaller development region and is separate from Ring simulator footage.
+ClearPath has a documented real Ring Playground input chain and one successful self-recorded development sequence: a 2-second empty reference, a 12-second occupied view, a confirmation action in the review interface and a 20-second cleared recheck. The latter uses the explicitly smaller development region and is separate from Ring simulator footage.
 
 The recorded engineering run passed 158 tests: 109 JavaScript and 49 Python, with none skipped. The final two development comparisons had a 393.5 ms median local processing time, including registration and excluding frame extraction, decoding and human action. This is not an end-to-end alert-latency measurement.
 

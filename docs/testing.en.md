@@ -46,7 +46,7 @@ This is simulator integration, not physical-camera, delivery-webhook or producti
 
 Two phone clips were used for development, so neither is independent unseen data. The first exposed camera-motion false detection and unsuccessful rechecks. The second first failed its original marked region; that original region still fails the final complete-support visibility check.
 
-A separately recorded, smaller development ROI left framing margin. On that same second clip, final local SIFT v3 returned an occupied result and a cleared result at the preselected times. The main page also completed the real interaction: 2-second empty reference → 12-second obstruction → human confirmation → 20-second cleared recheck.
+A separately recorded, smaller development ROI left framing margin. On that same second clip, final local SIFT v3 returned an occupied result and a cleared result at the preselected times. The recorded demonstration exercised the main-page controls: 2-second empty reference → 12-second obstruction → confirmation action → 20-second cleared recheck. This verifies the interface path; it is not evidence of an intended-user study.
 
 This is **one reused development case with a reduced region**. It does not establish original-region success, unseen accuracy or general hand-held-camera support. First failures and subsequent attempts were retained locally rather than overwritten. The public source package excludes private media and detailed private case exports.
 
