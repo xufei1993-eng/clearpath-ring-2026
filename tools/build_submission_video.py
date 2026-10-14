@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """Build an English ClearPath contest video using local, original production assets.
 
-Requires ffmpeg/ffprobe, macOS `say` (Samantha), and Pillow. Run `prepare` first,
-then `build --ring-clip ... --workflow-clip ...`. Source audio is never mapped.
+Requires ffmpeg/ffprobe, Pillow, and licensed local WAV narration. Run
+`prepare --voice-dir ...` first, then `build --ring-clip ... --workflow-clip ...`.
+Voice files are <voice-dir>/<chapter-id>/voice-NN.wav, in SECTIONS cue order.
+This tool does not synthesize speech or contact a cloud service. Only provide
+recordings or generated voices you are authorized to publish. Source audio is never mapped.
 All generated work files live in git-ignored evidence/contest-production.
 """
 from __future__ import annotations
@@ -201,7 +204,13 @@ def concat_quote(path):
     return str(path.resolve()).replace("'", "'\\''")
 
 
-def prepare(assets):
+def prepare(assets, voice_dir=None):
+    if voice_dir is None:
+        raise ValueError('Provide --voice-dir containing authorized local WAV narration.')
+    inputs = [voice_dir / section['id'] / f'voice-{index:02d}.wav'
+              for section in SECTIONS for index, _ in enumerate(section['cues'])]
+    if any(not path.is_file() for path in inputs):
+        raise ValueError('Every chapter cue needs a WAV file in --voice-dir before preparation.')
     assets.mkdir(parents=True, exist_ok=True)
     manifest = []
     for source in SECTIONS:
@@ -211,13 +220,14 @@ def prepare(assets):
         audio_parts, cues, cursor = [], [], 0.45
         for index, text in enumerate(section['cues']):
             stem = directory / f'voice-{index:02d}'
-            old_text = stem.with_suffix('.txt').read_text(encoding='utf-8').strip() if stem.with_suffix('.txt').exists() else ''
             stem.with_suffix('.txt').write_text(text + '\n', encoding='utf-8')
-            cached = probe(stem.with_suffix('.aiff')) if stem.with_suffix('.aiff').exists() else {}
-            cached_duration = float(cached.get('format', {}).get('duration', 0) or 0)
-            if cached_duration < 0.2 or old_text != text:
-                run(['say', '-v', 'Samantha', '-r', '150', '-o', stem.with_suffix('.aiff'), '-f', stem.with_suffix('.txt')])
-            run(['ffmpeg', '-v', 'error', '-y', '-i', stem.with_suffix('.aiff'), '-map_metadata', '-1', '-ar', RATE, '-ac', '1', '-c:a', 'pcm_s16le', stem.with_suffix('.wav')])
+            source_audio = voice_dir / section['id'] / f'voice-{index:02d}.wav'
+            destination = stem.with_suffix('.wav')
+            if source_audio.resolve() == destination.resolve():
+                raise ValueError('Keep supplied voice WAVs separate from generated production assets.')
+            run(['ffmpeg', '-v', 'error', '-y', '-i', source_audio, '-map', '0:a:0',
+                 '-map_metadata', '-1', '-map_chapters', '-1', '-ar', RATE, '-ac', '1',
+                 '-c:a', 'pcm_s16le', destination])
             with wave.open(str(stem.with_suffix('.wav')), 'rb') as audio:
                 pcm = audio.readframes(audio.getnframes())
             seconds = len(pcm) / (RATE * 2)
@@ -225,7 +235,7 @@ def prepare(assets):
             peak = max((abs(value) for value in samples), default=0)
             rms = math.sqrt(sum(value * value for value in samples) / max(1, len(samples)))
             if seconds < 0.2 or peak < 100 or rms < 10:
-                raise RuntimeError('Local Samantha output is empty or silent. Grant local Speech service access and rerun prepare; do not use a silent placeholder.')
+                raise RuntimeError('The provided narration is empty or silent; replace it before building.')
             start = float(section['cueStarts'][index]) if section.get('cueStarts') else cursor
             audio_parts.append((start, pcm))
             cues.append(dict(start=start, end=start + seconds, text=text))
@@ -271,7 +281,7 @@ def prepare(assets):
     total = sum(x['seconds'] for x in manifest)
     if total >= 180:
         raise RuntimeError(f'Narration is too long: {total:.2f}s. Shorten the source cues.')
-    result = dict(width=W, height=H, fps=FPS, duration=total, voice='Samantha', rate=150, sections=manifest)
+    result = dict(width=W, height=H, fps=FPS, duration=total, voice='Authorized local WAV narration', sections=manifest)
     (assets / 'production-manifest.json').write_text(json.dumps(result, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
     (assets / 'narration-en.txt').write_text('\n\n'.join(x['title'] + '\n' + '\n'.join(c['text'] for c in x['cues']) for x in manifest) + '\n', encoding='utf-8')
     print(json.dumps(dict(prepared=True, duration=round(total, 3), chapterDurations={x['id']:round(x['seconds'], 3) for x in manifest})))
@@ -285,7 +295,7 @@ def timestamp(seconds):
 
 def build(args, assets):
     manifest_file = assets / 'production-manifest.json'
-    production = json.loads(manifest_file.read_text(encoding='utf-8')) if manifest_file.exists() else prepare(assets)
+    production = json.loads(manifest_file.read_text(encoding='utf-8')) if manifest_file.exists() else prepare(assets, args.voice_dir)
     output = args.output_dir
     output.mkdir(parents=True, exist_ok=True)
     chunks, subtitles, offset = [], [], 0.0
@@ -355,7 +365,7 @@ def build(args, assets):
                   sourceAudioMapped=False, metadataStripped=True, chaptersStripped=True,
                   chapterDurations={x['id']:x['seconds'] for x in production['sections']},
                   playbackRates={x['id']:x.get('playbackRate',1) for x in production['sections']},
-                  narration='Original English text; local Samantha TTS; no music',
+                  narration=production.get('voice', 'Authorized local WAV narration') + '; original English text; no music',
                   scope='One reused self-recorded development scene; not unseen validation or safety certification')
     (assets / 'build-report.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
     shutil.copy2(assets / 'narration-en.txt', output / 'ClearPath_narration_EN.txt')
@@ -367,6 +377,7 @@ def main():
     parser.add_argument('action', choices=['prepare', 'build'])
     parser.add_argument('--assets', type=Path, default=ROOT / 'evidence/contest-production/producer-assets')
     parser.add_argument('--output-dir', type=Path, default=ROOT.parent / 'ClearPath_参赛提交包_2026-10-14')
+    parser.add_argument('--voice-dir', type=Path, help='Authorized local WAV files; required by prepare')
     parser.add_argument('--ring-clip', type=Path)
     parser.add_argument('--workflow-clip', type=Path)
     for kind in ('ring', 'workflow'):
@@ -376,7 +387,7 @@ def main():
     if not shutil.which('ffmpeg') or not shutil.which('ffprobe'):
         raise RuntimeError('ffmpeg and ffprobe must be available on PATH.')
     if args.action == 'prepare':
-        prepare(args.assets.resolve())
+        prepare(args.assets.resolve(), args.voice_dir.resolve() if args.voice_dir else None)
     else:
         build(args, args.assets.resolve())
 

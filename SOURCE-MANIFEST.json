@@ -21,7 +21,7 @@
     "dist/ring.mjs": "488c6fb5a415a8d52a92ad09e5da00373a0b48aa8b01dcae2caf9394ef3a8fa4",
     "dist/styles.css": "cd353cd169140969025bda182532172160d60700ada939aead68739f995c499d",
     "dist/vision.mjs": "be0509747d70f5e0d05df2f44aa5dd9660575c27b17bd408d3f92c964e8870e4",
-    "docs/THIRD_PARTY_NOTICES.md": "9c8a5e8c26035666d299ffe0a06a12857f51a51f586c4dfe3284d06f5cdd1918",
+    "docs/THIRD_PARTY_NOTICES.md": "1e70745932283334242111b155244f16c43b72159d78989f362eff4a9baf9f07",
     "docs/architecture.en.md": "d5d3a3f64c6b23074efcb7470d4af50d2703b83cf82e25af4fb6873e7a830b32",
     "docs/contest-readiness.md": "9b310e937c44b610b3672da2fd5c52e92183796d222011df87eb6a9af1805c23",
     "docs/product-feedback.md": "b7d2b0babe2dcc8994d26a201637d16314b6da4210a91cb4ebc94fdae66ea4b4",
@@ -43,7 +43,7 @@
     "tests/test_server.py": "3aa5815cca6d1fe3b7b8410a976665a4f681fb358f23c4885a746d84c5631af4",
     "tests/test_server_vision.py": "d9547a2d95188ef328635bbcbf63a88af26f56f96fbce36eb3c57aec50eb7d91",
     "tests/vision.test.mjs": "a10817fa048aa44662a93d01c8dde838465472bcadc904f4454bdca5c3cb2713",
-    "tools/build_submission_video.py": "bd648108539fcd5e0de91e01ed5dc61b20144c165af26893b0f92e1c7e3c67e0",
+    "tools/build_submission_video.py": "6a3472ede7c6e7eb2315ea5daa7c701eb6a6e7554d06ec2c2a426eb9eb54fbc7",
     "tools/package_submission.py": "e04acbd5a771c7bfd9d2efabec71f06da497c039e6be1ad2b8674ea16fa3e704"
   }
 }

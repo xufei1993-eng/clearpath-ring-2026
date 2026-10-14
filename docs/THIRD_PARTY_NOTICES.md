@@ -23,4 +23,8 @@ The project owner provided the development clips. Original files and derivative 
 
 ## Narration and graphics
 
-The film narration is original English text rendered locally with an installed macOS system voice. It is a synthetic narration voice, not a recording or impersonation of a person. Title cards, interface graphics and subtitle graphics are original ClearPath production material. No third-party music is included.
+Narration text, title cards, interface graphics and subtitle graphics are original ClearPath production material. The creator explicitly authorized using their own reference recording for locally synthesized narration. The final voice is synthesized from that reference; it is not a claim that the creator originally recorded the English sentences.
+
+The local reference-voice production path uses [Qwen3-TTS Base](https://huggingface.co/Qwen/Qwen3-TTS-12Hz-0.6B-Base) (Apache License 2.0), its [MLX-community 4-bit conversion](https://huggingface.co/mlx-community/Qwen3-TTS-12Hz-0.6B-Base-4bit), and [MLX-Audio](https://github.com/Blaizzy/mlx-audio/blob/main/LICENSE) (MIT). Reference transcription uses locally run Whisper, whose [code and model weights are MIT licensed](https://github.com/openai/whisper/blob/main/LICENSE). These optional production tools are separate from the application's visual-change processing.
+
+Original reference recordings, transcripts, voice representations, generated audio segments, downloaded model weights and dependency binaries are excluded from the source release. No third-party music is included.
