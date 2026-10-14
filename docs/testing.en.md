@@ -13,6 +13,8 @@ node --test tests/*.test.mjs
 
 On Windows, replace the Python executable with `.venv-vision\Scripts\python`. The complete recorded run is **109/109 JavaScript and 49/49 Python: 158 passed, none skipped**.
 
+The independent clean source package also passed those same Node 109 and Python 49 checks with none skipped. The isolated test environment required approval to bind loopback sockets; that execution-permission condition was not a product failure.
+
 | Tests | Count | Scope |
 |---|---:|---|
 | Browser vision | 39 | Synthetic pixels, overlap, quality guards and constrained compensation. |

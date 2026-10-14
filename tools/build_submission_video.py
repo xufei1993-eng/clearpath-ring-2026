@@ -34,7 +34,7 @@ SECTIONS = [
         'A decoded frame enters local comparison on this computer.',
         'This proves the input connection. It does not prove doorway detection accuracy.',
     ]),
-    dict(id='workflow', title='Self-recorded development workflow', seconds=57, kind='workflow', cueStarts=[0.5, 5.0, 12.0, 21.0, 30.0, 42.0, 50.0], cues=[
+    dict(id='workflow', title='Self-recorded development workflow', seconds=57, kind='workflow', cueStarts=[0.5, 5.0, 12.0, 19.0, 36.7, 49.2, 28.0], cues=[
         'Now the source is a phone recording made for development.',
         'We save an empty reference at two seconds and mark a smaller region with framing margin.',
         'This new calibration covers less ground than the original region, which still fails visibility checks.',
@@ -226,11 +226,14 @@ def prepare(assets):
             rms = math.sqrt(sum(value * value for value in samples) / max(1, len(samples)))
             if seconds < 0.2 or peak < 100 or rms < 10:
                 raise RuntimeError('Local Samantha output is empty or silent. Grant local Speech service access and rerun prepare; do not use a silent placeholder.')
-            if section.get('cueStarts'):
-                cursor = max(cursor, float(section['cueStarts'][index]))
-            audio_parts.append((cursor, pcm))
-            cues.append(dict(start=cursor, end=cursor + seconds, text=text))
-            cursor += seconds + 0.16
+            start = float(section['cueStarts'][index]) if section.get('cueStarts') else cursor
+            audio_parts.append((start, pcm))
+            cues.append(dict(start=start, end=start + seconds, text=text))
+            cursor = max(cursor, start + seconds + 0.16)
+        cues.sort(key=lambda cue: cue['start'])
+        audio_parts.sort(key=lambda part: part[0])
+        if any(cues[i]['end'] > cues[i+1]['start'] for i in range(len(cues)-1)):
+            raise ValueError('Narration cues overlap; adjust chapter cue starts.')
         seconds = max(float(section['seconds']), math.ceil((cursor + 0.9) * FPS) / FPS)
         if section['id'] == 'closing':
             seconds = max(seconds, 15.0)

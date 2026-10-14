@@ -2,7 +2,7 @@
 
 Audit date: 14 October 2026. This is a preparation audit, not a submitted entry or a promise of eligibility, acceptance, or an award. No rules were accepted, submission form completed, reviewer invited, or media published during this audit.
 
-ClearPath has a working local product loop, a real Ring Playground integration record, English setup documentation, an MIT license, and a recorded engineering suite. The submission package still needs a final English video with a public platform link and a verified GitHub judging route. The existing owner-only static preview is not a judge-accessible substitute for those items.
+ClearPath has a working local product loop, a real Ring Playground integration record, English setup documentation, an MIT license, and a recorded engineering suite. The [public GitHub repository](https://github.com/xufei1993-eng/clearpath-ring-2026) was created, pushed and verified as PUBLIC with MIT licensing on 14 October 2026. The independent clean source package passed all 158 engineering tests without skips. The submission package still needs the final video's public platform link; the existing owner-only static preview is not a substitute for that video.
 
 ## Official requirements
 
@@ -11,13 +11,13 @@ The public submission checklist on the [official overview](https://amazonappdev2
 | Requirement | ClearPath position |
 |---|---|
 | Submit by 23 October 2026, 12:00 PDT; Beijing: 24 October, 03:00. | Submission remains pending. |
-| Working project; feature description; GitHub source, assets and run instructions. | Source and English instructions exist locally. GitHub URL/access needs verification. |
-| Public repository with an identifiable open-source license, or private reviewer access. | MIT file exists. Repository visibility and access are not established by this audit. |
+| Working project; feature description; GitHub source, assets and run instructions. | Clean source and English run instructions are available in the verified public repository. |
+| Public repository with an identifiable open-source license, or private reviewer access. | PUBLIC visibility and MIT license verified; private-reviewer invitations are unnecessary for this public route. |
 | Ring technology called at runtime; demonstrate an official simulator or actual device. | Implemented and exercised through real Playground REST/WHEP calls. |
 | Public YouTube/Vimeo video link; aim below three minutes. | Final export and public link pending. Judges need not watch beyond three minutes. |
 | English materials, or complete English translations. | English README and written answers exist. Final narration/captions and supporting material need review. |
 | Product feedback; primary-track and mini-challenge selections. | Feedback prepared. Select Ring; no mini-challenge claim currently supported. |
-| Free judge access through the judging period ending 20 November. | Reproducible local route planned; externally accessible repository still unverified. |
+| Free judge access through the judging period ending 20 November. | Public source and free local run route verified; maintain access through judging. |
 | Authorized media and dependencies; entrant eligibility and ownership. | Entrant must complete the final checks; no identity/eligibility assertions were made here. |
 
 Feature requests and friction logs are optional; the [overview](https://amazonappdev2026.devpost.com/) describes a possible friction-log judging bonus. They are included because this build has actual observations, without inventing incidents.
@@ -42,7 +42,7 @@ The private source video, extracted frames and detailed case exports remain loca
 
 1. Export and watch the final English video from start to finish. Show actual Ring reception inside ClearPath and clearly switch labels before the phone-footage handling loop. Translate visible actions and results. Include an honest uncertain/recalibration state.
 2. Upload that approved export to YouTube or Vimeo with public visibility, then check its link from a logged-out browser. A local MP4 or private drive link is not the required public video link.
-3. Provide the GitHub repository URL. Verify a clean checkout can follow the English run instructions. Choose public MIT access or complete the documented private reviewer route; do not list the owner-only preview as the only way to test.
+3. Use the verified public MIT [GitHub repository](https://github.com/xufei1993-eng/clearpath-ring-2026). Its independent clean source package passed the full suite. Keep the English run instructions and source accessible through judging; the owner-only preview is not the judging route.
 4. Paste [the project description](submission-final.md) and [product feedback](product-feedback.md), choose Ring, and review the final form and entrant information. Leave unsupported mini-challenges unselected.
 5. Check the submitted revision, video attribution and English supporting documents together. Keep failures and limitations in the accessible written record, without publishing unapproved private case files.
 

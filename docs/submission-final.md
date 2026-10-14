@@ -1,6 +1,6 @@
 # ClearPath — final submission copy
 
-Prepared 14 October 2026. The project description below is ready for editorial use; this file does not assert that a submission or public video already exists. Repository and video links must be verified before the final form is sent. See [readiness](contest-readiness.md) for the official-requirements audit and [product feedback](product-feedback.md) for the separate feedback answer.
+Prepared 14 October 2026. The project description below is ready for editorial use. The public MIT repository is verified; final submission and a public video link remain pending. See [readiness](contest-readiness.md) for the official-requirements audit and [product feedback](product-feedback.md) for the separate feedback answer.
 
 ## Project name
 
@@ -76,10 +76,10 @@ Start the local server and open `http://127.0.0.1:8765/?lang=en`. Synthetic rehe
 
 The English setup and [testing summary](testing.en.md) explain the available checks and limitations. The owner-only static preview does not provide the local Ring adapter or SIFT service and should not be the sole judging route.
 
-## Submission links to complete
+## Submission links
 
-- **GitHub repository:** pending verified URL and public-license or private-reviewer access.
+- **GitHub repository:** [xufei1993-eng/clearpath-ring-2026](https://github.com/xufei1993-eng/clearpath-ring-2026), verified PUBLIC and MIT licensed on 14 October 2026.
 - **Public YouTube or Vimeo demo:** pending final export, upload and logged-out link check.
 - **Product feedback:** use [the prepared feedback answer](product-feedback.md).
 
-Do not paste this final checklist as a claim that those links already exist. Replace pending items only after they are actually verified.
+The repository link is verified. Replace the video placeholder only after the entrant uploads the final export and verifies its public link.

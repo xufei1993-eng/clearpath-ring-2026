@@ -4,6 +4,8 @@
 
 ClearPath helps a resident review visual changes in an area they want to keep empty. It connects to the official Ring Developer Playground, retains the analyzed frame, lets a person confirm or dismiss an observation, and requires later evidence for a recheck.
 
+Public MIT source: [xufei1993-eng/clearpath-ring-2026](https://github.com/xufei1993-eng/clearpath-ring-2026). Repository visibility and license were verified on 14 October 2026. The public demonstration-video link remains pending the entrant's upload.
+
 This is a working local prototype. Actual Ring video has reached the app and the same local comparison workflow. One self-recorded development sequence completed obstruction → human confirmation → later cleared recheck using an explicitly smaller region. Original failures remain documented; this is not unseen accuracy evidence or a safety assessment.
 
 ## Run the basic app
