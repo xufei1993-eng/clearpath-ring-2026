@@ -1,0 +1,4 @@
+# Optional local SIFT enhancement; tested with Python 3.12.
+# The basic browser workflow and Ring proxy do not require these packages.
+opencv-python-headless==5.0.0.93
+numpy==2.5.4

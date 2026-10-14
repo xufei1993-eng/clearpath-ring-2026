@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#24594c">
+  <meta name="description" content="ClearPath 门前通行助手。用本地视觉标记疑似障碍，通过人工确认与后续画面复查。">
+  <title>ClearPath · 门前通行助手</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a href="#main" class="skip-link">跳至主要内容</a>
+<header class="topbar">
+  <a class="brand" href="./" aria-label="ClearPath 首页"><span class="brand-mark" aria-hidden="true">C<span>↗</span></span><span>ClearPath<small>为每一次出门留出空间</small></span></a>
+  <nav aria-label="主导航"><a href="#main" class="active">通行检查</a><a href="evaluate.html">实拍评测</a><button id="about-button" class="text-button">使用说明</button></nav>
+  <div class="topbar-tools"><div class="local-badge"><span aria-hidden="true"></span>本地处理 · 无模型费用</div><a id="language-switch" class="language-switch" href="?lang=en" title="切换语言会开始新的页面会话。">EN</a></div>
+</header>
+<main id="main">
+  <div class="page-heading"><div><p class="eyebrow">DOORWAY ASSISTANT</p><h1>门前的路，留给你。</h1><p class="intro">关注通行区域里的变化，帮你发现和处理疑似障碍。</p></div><button id="guide-button" class="button secondary">体验完整闭环 <span aria-hidden="true">↗</span></button></div>
+  <div class="presentation-options"><label for="presentation-mode"><input id="presentation-mode" type="checkbox">录屏隐私模式</label><span>隐藏凭据、设备名称和文件原名；保留真实来源、状态与捕获时间。</span></div>
+  <div class="workspace">
+    <section class="viewer-section" aria-labelledby="camera-heading">
+      <div class="section-header"><div><h2 id="camera-heading">门前画面</h2><span id="source-label">合成样例 · 非 Ring 画面</span></div><span id="frame-time" class="mono">尚未检查</span></div>
+      <div class="source-tabs" role="group" aria-label="画面来源">
+        <button class="selected" data-source="sample" aria-pressed="true">体验样例</button><button data-source="camera" aria-pressed="false">我的摄像头</button><button data-source="file" aria-pressed="false">本地素材</button><button data-source="ring" aria-pressed="false">Ring Playground</button>
+      </div>
+      <div class="camera-stage" id="camera-stage">
+        <canvas id="scene" width="960" height="600" aria-label="门前画面"></canvas>
+        <video id="video" playsinline muted aria-hidden="true"></video>
+        <canvas id="overlay" width="960" height="600" tabindex="0" aria-label="标定通行区域：点选四个角，或使用下方预设区域按钮"></canvas>
+        <div class="stage-top"><span id="stage-source">SYNTHETIC SAMPLE — NOT RING</span><span id="stage-status">待建立参考</span></div>
+        <div class="stage-bottom"><span id="region-label">虚线区域 = 希望保持畅通的区域</span><button id="live-view-button" class="stage-button" hidden>显示最新画面</button><button id="fullscreen-button" class="stage-button" aria-label="全屏查看画面">⛶</button></div>
+      </div>
+      <div id="source-controls" class="source-controls">
+        <div id="sample-controls"><span>切换样例</span><div class="segmented"><button data-scene="empty" class="selected" aria-pressed="true">空通道</button><button data-scene="inside" aria-pressed="false">区域内放箱子</button><button data-scene="outside" aria-pressed="false">区域外放箱子</button></div></div>
+        <div id="camera-controls" hidden><button id="camera-start" class="button secondary">开启摄像头</button><span>画面在设备上处理，不会上传。</span></div>
+        <div id="file-controls" hidden><div class="file-row"><label class="button secondary" for="media-file">选择视频 / 图片</label><input id="media-file" type="file" accept="video/*,image/*" hidden><button id="video-play" class="button quiet" disabled>播放 / 暂停</button></div><span id="file-name">固定同一机位，先选择空通道素材。</span><label class="footage-declaration" title="此声明仅标注素材来源，不改变检测结果。"><input id="self-recorded" type="checkbox">我拍摄的测试素材</label><div class="file-row" id="video-timeline" hidden><label for="video-position">视频位置</label><input id="video-position" type="range" min="0" max="1" value="0" step="0.1"><output id="video-position-label" for="video-position">0.0 s</output><label class="seek-label" for="video-position-number">定位秒数</label><input id="video-position-number" type="number" min="0" max="1" value="0" step="0.1" inputmode="decimal"><button id="video-seek" type="button" class="button quiet">定位</button></div></div>
+        <form id="ring-controls" hidden><button id="presentation-credentials" type="button" class="button quiet presentation-credentials" aria-expanded="false" aria-controls="ring-credentials">临时显示连接设置</button><div id="ring-credentials" class="credential-entry"><label for="ring-token">Playground 短时 access token</label><div class="input-row"><input id="ring-token" type="password" autocomplete="off" placeholder="仅保存在本地服务内存"><button type="submit" class="button secondary">连接</button></div></div><div class="input-row"><label for="ring-device">设备</label><select id="ring-device" disabled><option>先连接账号</option></select><button id="ring-live" type="button" class="button quiet" disabled>打开直播</button><button id="ring-disconnect" type="button" class="button quiet">断开</button></div><p id="ring-message">尚未验证 Ring 连接。需要本地服务与 Playground 账号。<a href="https://developer.amazon.com/ring" target="_blank" rel="noopener">官方开发者入口 ↗</a></p></form>
+      </div>
+      <div id="presentation-tools" class="presentation-tools" role="group" aria-label="录制工具" hidden></div>
+      <div class="calibration"><div><h3>你的通行区域</h3><p id="calibration-help">先标出你希望保持畅通的区域，再保存一帧空通道作为参考。</p></div><div class="calibration-buttons"><button id="edit-region" class="button quiet">点选四角</button><button id="preset-region" class="button quiet">使用预设区域</button><button id="save-reference" class="button secondary">保存空通道参考</button></div><details id="numeric-region" class="numeric-region"><summary>用数值标定四角（键盘可用）</summary><p id="numeric-region-help">按顺时针或逆时针填写四角。X 从左到右、Y 从上到下，均为 0 到 1。应用后须重新保存参考。</p><div class="numeric-region-grid" aria-describedby="numeric-region-help"><fieldset><legend>角 1</legend><label for="region-1-x">X<input id="region-1-x" aria-label="角 1 X" type="number" min="0" max="1" step="0.01" inputmode="decimal" required></label><label for="region-1-y">Y<input id="region-1-y" aria-label="角 1 Y" type="number" min="0" max="1" step="0.01" inputmode="decimal" required></label></fieldset><fieldset><legend>角 2</legend><label for="region-2-x">X<input id="region-2-x" aria-label="角 2 X" type="number" min="0" max="1" step="0.01" inputmode="decimal" required></label><label for="region-2-y">Y<input id="region-2-y" aria-label="角 2 Y" type="number" min="0" max="1" step="0.01" inputmode="decimal" required></label></fieldset><fieldset><legend>角 3</legend><label for="region-3-x">X<input id="region-3-x" aria-label="角 3 X" type="number" min="0" max="1" step="0.01" inputmode="decimal" required></label><label for="region-3-y">Y<input id="region-3-y" aria-label="角 3 Y" type="number" min="0" max="1" step="0.01" inputmode="decimal" required></label></fieldset><fieldset><legend>角 4</legend><label for="region-4-x">X<input id="region-4-x" aria-label="角 4 X" type="number" min="0" max="1" step="0.01" inputmode="decimal" required></label><label for="region-4-y">Y<input id="region-4-y" aria-label="角 4 Y" type="number" min="0" max="1" step="0.01" inputmode="decimal" required></label></fieldset></div><button id="apply-region" type="button" class="button secondary">应用通行区域</button><p id="numeric-region-message" role="status" aria-live="polite"></p></details></div>
+      <div class="viewer-footer"><span><span class="legend-dot path"></span>通行区域</span><span><span class="legend-dot change"></span>疑似新增障碍</span><span id="reference-label">参考帧：未保存</span></div>
+    </section>
+    <aside class="assessment" aria-labelledby="assessment-title">
+      <div class="assessment-top" role="status" aria-live="polite" aria-atomic="true"><p class="eyebrow">PATH CHECK</p><span id="status-symbol" class="status-symbol" aria-hidden="true">↗</span><h2 id="assessment-title">先认识你的通道</h2><p id="assessment-description">保存空通道参考后，ClearPath 才能比较后续画面的变化。</p><div id="metric" hidden><strong id="overlap-value">0%</strong><span>通行区域内的变化像素占比<br>不代表实际被占宽度</span></div></div>
+      <ol class="workflow" aria-label="检查流程"><li id="step-baseline" class="current"><span>1</span><div><strong>建立参考</strong><small>标定区域，保存空通道</small></div></li><li id="step-detect"><span>2</span><div><strong>发现变化</strong><small>比较当前画面与参考帧</small></div></li><li id="step-confirm"><span>3</span><div><strong>人工确认</strong><small>确认疑似障碍是否挡路</small></div></li><li id="step-recheck"><span>4</span><div><strong>移走后复查</strong><small>使用后续画面再次检查</small></div></li></ol>
+      <div class="assessment-actions"><button id="analyze-button" class="button primary" disabled>检查当前画面</button><div id="confirm-actions" hidden><button id="confirm-button" class="button warning">确认存在障碍</button><button id="dismiss-button" class="button quiet">不是障碍</button></div><button id="recheck-button" class="button primary" hidden>使用后续画面复查</button><button id="speak-button" class="button quiet">朗读当前提示</button><label class="monitor-option"><input id="monitor" type="checkbox"> 每 3 秒检查一次</label></div>
+      <div class="assistance-note"><strong>辅助判断，保留你的决定。</strong><p>画面可能受光线、遮挡和机位变化影响。当前结果不代表通行安全，也不测量实际宽度。</p></div>
+    </aside>
+  </div>
+  <section id="activity" class="activity" aria-labelledby="activity-title"><div class="section-header"><div><h2 id="activity-title">每一步，都有依据。</h2><p>记录保存在本次页面会话中，导出后可用于复盘。</p></div><button id="export-button" class="button quiet">导出检查记录 ↓</button></div><div id="activity-empty" class="empty-record"><span aria-hidden="true">↳</span><p>还没有检查记录。先保存一帧空通道参考。</p></div><ol id="activity-list" class="activity-list"></ol></section>
+  <footer><span>ClearPath · 给每一次出门多一份从容</span><span>零付费 API · 无云端视频存储</span></footer>
+</main>
+<dialog id="about-dialog"><div class="dialog-heading"><h2>从一段空通道开始</h2><button id="close-dialog" class="button quiet" aria-label="关闭使用说明">关闭 ×</button></div><ol><li>固定摄像机，确保门前地面清晰可见。</li><li>点选画面的四个角，或使用预设区域。此区域仅表示你希望保持畅通的位置。</li><li>确认通道为空，保存参考。放置物品后检查新画面，查看变化位置。</li><li>人工确认后移走物品，用后续画面复查。系统不会发送消息给他人。</li></ol><p>“体验样例”由程序绘制，用于理解流程，不是实拍评测。Ring 接入使用本人 Playground 账号；真实联调请从本机服务打开。图片模式可连续选择同一机位的前后照片；视频模式可暂停保存参考，再播放到后续时刻检查。</p><p>基础比较在浏览器进行；可选增强配准在本机 Python 服务处理，画面不发往云端。参考图与检查记录只在本页内存中；刷新页面后清除。Ring token 仅进入本地服务内存，断开后移除。</p></dialog>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+<script type="module" src="app.mjs"></script>
+<script type="module" src="recording.mjs"></script>
+</body>
+</html>

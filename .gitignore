@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv*/
+.env
+.env.*
+!.env.example
+evidence/
+recordings/
+node_modules/
+.DS_Store
+*.log
+*.mov
+*.MOV
+*.webm
+*.mp4

@@ -1,0 +1,10 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {isLaterFrame} from '../dist/freshness.mjs';
+const anchor={source:'file',session:3,kind:'video',revision:4,time:10};
+test('seeking backwards to an empty frame cannot resolve an incident',()=>assert.equal(isLaterFrame(anchor,{...anchor,time:0}),false));
+test('the same paused frame is not a later frame',()=>assert.equal(isLaterFrame(anchor,{...anchor}),false));
+test('a later frame in the same video may be rechecked',()=>assert.equal(isLaterFrame(anchor,{...anchor,time:11}),true));
+test('a frame from another source/session cannot resolve an incident',()=>{assert.equal(isLaterFrame(anchor,{...anchor,source:'camera',time:11}),false);assert.equal(isLaterFrame(anchor,{...anchor,session:4,time:11}),false);});
+test('new user-selected stills are ordered by import revision only',()=>{const still={...anchor,kind:'still'};assert.equal(isLaterFrame(still,{...still,revision:5}),true);assert.equal(isLaterFrame(still,still),false);});
+test('missing or invalid time cannot resolve an incident',()=>{assert.equal(isLaterFrame(anchor,{...anchor,time:NaN}),false);assert.equal(isLaterFrame(null,anchor),false);});
