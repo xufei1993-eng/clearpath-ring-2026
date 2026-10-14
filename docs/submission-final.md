@@ -79,7 +79,7 @@ The English setup and [testing summary](testing.en.md) explain the available che
 ## Submission links
 
 - **GitHub repository:** [xufei1993-eng/clearpath-ring-2026](https://github.com/xufei1993-eng/clearpath-ring-2026), verified PUBLIC and MIT licensed on 14 October 2026.
-- **Public YouTube or Vimeo demo:** pending final export, upload and logged-out link check.
+- **Public YouTube or Vimeo demo:** the 2:36 English MP4 with narration and captions is prepared locally. The entrant must upload it and paste a verified publicly visible link here.
 - **Product feedback:** use [the prepared feedback answer](product-feedback.md).
 
 The repository link is verified. Replace the video placeholder only after the entrant uploads the final export and verifies its public link.

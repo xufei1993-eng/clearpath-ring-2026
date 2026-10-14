@@ -1,5 +1,7 @@
 # ClearPath
 
+[![Engineering checks](https://github.com/xufei1993-eng/clearpath-ring-2026/actions/workflows/ci.yml/badge.svg)](https://github.com/xufei1993-eng/clearpath-ring-2026/actions/workflows/ci.yml)
+
 **Notice a possible doorway obstruction. Review it. Check again.**
 
 ClearPath helps a resident review visual changes in an area they want to keep empty. It connects to the official Ring Developer Playground, retains the analyzed frame, lets a person confirm or dismiss an observation, and requires later evidence for a recheck.
@@ -46,6 +48,8 @@ Basic comparison runs in the browser. Optional registration sends two reduced fr
 Follow [Ring setup](docs/ring-setup.en.md). You need your own free Amazon Developer/Playground access and a short-lived token. No hardware purchase or private reusable token is included. The app actually calls official device and WHEP endpoints; it does not replace a failed connection with synthetic footage.
 
 The [recorded 14 October 2026 English-session reconnection](docs/ring-validation_2026-10-14.en.md) received moving official simulator video, compared an empty step region from that same stream, and disconnected with the local token removed. This proves the input chain; it does not prove package removal or a physical Ring-device deployment. The separate self-recorded sequence in the demonstration proves the observed development handling loop.
+
+![Actual ClearPath comparison of official Ring Playground video](docs/ring-integration.png)
 
 ## Presentation and recording
 

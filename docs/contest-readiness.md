@@ -14,8 +14,8 @@ The public submission checklist on the [official overview](https://amazonappdev2
 | Working project; feature description; GitHub source, assets and run instructions. | Clean source and English run instructions are available in the verified public repository. |
 | Public repository with an identifiable open-source license, or private reviewer access. | PUBLIC visibility and MIT license verified; private-reviewer invitations are unnecessary for this public route. |
 | Ring technology called at runtime; demonstrate an official simulator or actual device. | Implemented and exercised through real Playground REST/WHEP calls. |
-| Public YouTube/Vimeo video link; aim below three minutes. | Final export and public link pending. Judges need not watch beyond three minutes. |
-| English materials, or complete English translations. | English README and written answers exist. Final narration/captions and supporting material need review. |
+| Public YouTube/Vimeo video link; aim below three minutes. | The 2:36 English export is prepared locally; public upload/link remain pending. Judges need not watch beyond three minutes. |
+| English materials, or complete English translations. | English README and written answers exist. The final demonstration has English narration and burned-in captions. |
 | Product feedback; primary-track and mini-challenge selections. | Feedback prepared. Select Ring; no mini-challenge claim currently supported. |
 | Free judge access through the judging period ending 20 November. | Public source and free local run route verified; maintain access through judging. |
 | Authorized media and dependencies; entrant eligibility and ownership. | Entrant must complete the final checks; no identity/eligibility assertions were made here. |
